@@ -1,0 +1,37 @@
+name: API Tests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  api-testing:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install Newman
+        run: npm install -g newman newman-reporter-htmlextra
+
+      - name: Run API Tests
+        run: |
+          newman run collections/"FakeStore API Testing.postman_collection.json" \
+            -e environments/"FakeStore - Dev.postman_environment.json" \
+            -r cli,htmlextra \
+            --reporter-htmlextra-export reports/report.html
+
+      - name: Upload HTML Report
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: api-test-report
+          path: reports/report.html
