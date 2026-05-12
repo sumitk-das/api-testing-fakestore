@@ -35,11 +35,64 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://fakestoreapi.com/products",
-					"protocol": "https",
+					"raw": "{{baseUrl}}/products",
 					"host": [
-						"fakestoreapi",
-						"com"
+						"{{baseUrl}}"
+					],
+					"path": [
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Product",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([201]);",
+							"});",
+							"",
+							"pm.test(\"Response has product ID\", function () {",
+							"    const response = pm.response.json();",
+							"    pm.expect(response.id).to.exist;",
+							"});",
+							"",
+							"pm.test(\"Product title matches\", function () {",
+							"    const response = pm.response.json();",
+							"    pm.expect(response.title).to.equal(\"Test Product\");",
+							"});",
+							"",
+							"pm.test(\"Response time is below 3 sec\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(3000);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"Test Product\",\n    \"price\": 29.99,\n    \"description\": \"This is a test product\",\n    \"category\": \"electronics\",\n    \"image\": \"https://fakestoreapi.com/img/81fAn1hwKML._AC_UY879_.jpg\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/products",
+					"host": [
+						"{{baseUrl}}"
 					],
 					"path": [
 						"products"
