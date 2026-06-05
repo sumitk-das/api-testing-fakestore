@@ -1,4 +1,4 @@
-# 🧪 API Testing Demo — FakeStore API
+# 🧪 API Testing — FakeStore API
 
 A professional API testing project built with **Postman** and **Newman**, covering real-world scenarios including full CRUD operations, authentication, token handling, API chaining, JSON schema validation, and CI/CD integration via GitHub Actions.
 
